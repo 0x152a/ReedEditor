@@ -1,4 +1,4 @@
-#include <codeeditor.h>
+#include "codeeditor.h"
 
 CodeEditor::CodeEditor()
 {
