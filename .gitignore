@@ -34,6 +34,7 @@
 # xmake
 /.xmake/
 /.cache/
+/build/
 /compile_commands.json
 
 # 忽略IDE配置文件
