@@ -4,6 +4,7 @@ target("demo")
     add_files("src/*.cpp")
     add_includedirs("res")
     add_files("res/*.cpp")
+    add_files("*.cpp")
     add_packages("fltk")
 
 on_load(function (target)

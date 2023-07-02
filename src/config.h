@@ -5,8 +5,8 @@
 #include <vector>
 
 #ifndef __std_string
-#define __std_string
-#include <string>
+#    define __std_string
+#    include <string>
 typedef std::string string;
 typedef std::string_view string_view;
 #endif
@@ -24,22 +24,31 @@ typedef std::vector<std::tuple<string_view, string_view, ConfigSupportedTypes>>
 //     G_config_pausers;
 // TODO: Supports this
 
-class Config {
-protected:
-  std::map<string_view, ConfigSupportedTypes> values;
-  inline string_view _generateKey(string_view space, string_view key) {
-    return joinStr(key, "@", space);
-  }
+class Config
+{
+  protected:
+    std::map<string_view, ConfigSupportedTypes> values;
+    inline string_view _generateKey(string_view space, string_view key)
+    {
+        return joinStr(key, "@", space);
+    }
 
-public:
-  Config() : Config(DEFAULT_CONFIG_LOCATION) {}
-  Config(string_view filename) { this->loadFromFile(filename); }
-  const string_view DEFAULT_CONFIG_LOCATION = "res/default_config.toml";
-  void loadFrom(ConfigItems &items);
-  void loadFromFile(string_view filename);
-  template <typename T>
-  T get(string_view space, string_view key,
-        std::function<T()> const &default_generator);
-  template <typename T> void set(string_view space, string_view key, T value);
-  template <typename T> T require(string_view space, string_view key);
+  public:
+    Config() : Config(DEFAULT_CONFIG_LOCATION) {}
+    Config(string_view filename)
+    {
+        this->loadFromFile(filename);
+    }
+    const string_view DEFAULT_CONFIG_LOCATION = "res/default_config.toml";
+    void loadFrom(ConfigItems& items);
+    void loadFromFile(string_view filename);
+    template <typename T>
+    T get(
+        string_view space,
+        string_view key,
+        std::function<T()> const& default_generator);
+    template <typename T>
+    void set(string_view space, string_view key, T value);
+    template <typename T>
+    T require(string_view space, string_view key);
 };

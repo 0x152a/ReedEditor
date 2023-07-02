@@ -7,6 +7,5 @@
 
 class Reed
 {
-public:
-
+  public:
 };
