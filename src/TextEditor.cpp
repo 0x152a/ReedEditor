@@ -7,9 +7,6 @@ Fl_Text_Buffer* G_text_buffer = new Fl_Text_Buffer;
 char G_filename[FL_PATH_MAX]  = "";
 char G_title[FL_PATH_MAX];
 
-const int LINE_NUM_WIDTH = 75;
-const int TEXT_SIZE      = 14;
-
 EditorWindow::EditorWindow(int w, int h, const char* t)
     : Fl_Double_Window(w, h, t)
 {
@@ -117,7 +114,8 @@ void lineNumbersCB(Fl_Widget* w, void* v)
     const Fl_Menu_Item* i = m->mvalue();
     if (i->value())
         {
-            e->editor->linenumber_width(LINE_NUM_WIDTH);  // enable
+            e->editor->linenumber_width(
+                getConfig()->require<int>("editor.ui", "font_size"));
             e->editor->linenumber_size(e->editor->textsize());
         }
     else
@@ -445,7 +443,7 @@ Fl_Window* newView()
     m->copy(MENU_ITEMS, w);
     w->editor = new Fl_Text_Editor(0, 30, 660, 370);
     w->editor->textfont(FL_COURIER);
-    w->editor->textsize(TEXT_SIZE);
+    w->editor->textsize(getConfig()->require<int>("editor.ui", "font_size"));
     // w->editor->wrap_mode(Fl_Text_Editor::WRAP_AT_BOUNDS, 250);
     w->editor->buffer(G_text_buffer);
 

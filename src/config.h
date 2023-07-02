@@ -1,3 +1,4 @@
+#pragma once
 #include <functional>
 #include <map>
 #include <utility>
@@ -8,47 +9,52 @@
 #    define __std_string
 #    include <string>
 typedef std::string string;
-typedef std::string_view string_view;
+typedef std::string string;
 #endif
 
 #include "path.cpp"
-#include "toml.cpp"
+#include "toml.hpp"
 #include "utils.cpp"
 
-typedef std::variant<int, unsigned int, char, string_view, double, bool>
+typedef std::variant<int, unsigned int, char, string, double, bool>
     ConfigSupportedTypes;
-typedef std::vector<std::tuple<string_view, string_view, ConfigSupportedTypes>>
+typedef std::vector<std::tuple<string, string, ConfigSupportedTypes>>
     ConfigItems;
 
-// std::vector<std::pair<string_view, std::function<ConfigItems(string_view)>>>
+// std::vector<std::pair<string, std::function<ConfigItems(string)>>>
 //     G_config_pausers;
 // TODO: Supports this
 
 class Config
 {
   protected:
-    std::map<string_view, ConfigSupportedTypes> values;
-    inline string_view _generateKey(string_view space, string_view key)
+    std::map<string, ConfigSupportedTypes> values;
+    inline string _generateKey(string space, string key)
     {
         return joinStr(key, "@", space);
     }
 
   public:
-    Config() : Config(DEFAULT_CONFIG_LOCATION) {}
-    Config(string_view filename)
+    Config() : Config("") {}
+    Config(string filename)
     {
+        if (filename.empty())
+            {
+                filename = this->DEFAULT_CONFIG_LOCATION;
+            }
         this->loadFromFile(filename);
     }
-    const string_view DEFAULT_CONFIG_LOCATION = "res/default_config.toml";
+    const string DEFAULT_CONFIG_LOCATION = "res/default_config.toml";
     void loadFrom(ConfigItems& items);
-    void loadFromFile(string_view filename);
+    void loadFromFile(string filename);
     template <typename T>
     T get(
-        string_view space,
-        string_view key,
+        string space,
+        string key,
         std::function<T()> const& default_generator);
+    void set(string space, string key, ConfigSupportedTypes value);
     template <typename T>
-    void set(string_view space, string_view key, T value);
-    template <typename T>
-    T require(string_view space, string_view key);
+    T require(string space, string key);
 };
+
+Config* getConfig(string name = "global", string load_filename = "");

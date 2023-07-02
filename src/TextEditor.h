@@ -1,3 +1,7 @@
+#ifndef __text_editor
+#define __text_editor
+
+#include "config.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
@@ -15,14 +19,14 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-void saveCB();
-void saveasCB();
-void find2CB(Fl_Widget*, void*);
-void replallCB(Fl_Widget*, void*);
-void replace2CB(Fl_Widget*, void*);
-void replcAnCB(Fl_Widget*, void*);
+#ifndef __std_string
+#    define __std_string
+#    include <string>
+typedef std::string string;
+typedef std::string string;
+#endif
+
 
 class EditorWindow : public Fl_Double_Window
 {
@@ -72,3 +76,5 @@ void saveCB();
 void saveAsCB();
 void viewCB(Fl_Widget*, void*);
 void loadFileCB(const char* fname);
+
+#endif

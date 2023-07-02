@@ -1,13 +1,15 @@
 #include "TextEditor.h"
 
-int main(int argc, char** argv)
+int ma2in(int argc, char** argv)
 {
+    Config* config = getConfig();
     // textbuf->transcoding_warning_action = NULL;
-    fl_open_callback(loadFileCB);
 
     Fl_Window* window = newView();
+    // fl_open_callback(window->loadFileCB);
 
     window->show(1, argv);
 
-    return Fl::run();
+    auto status = Fl::run();
+    return status;
 }

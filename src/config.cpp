@@ -1,5 +1,28 @@
-#pragma once
 #include "config.h"
+
+#ifndef __config
+#    define __config
+
+std::map<string, Config*> G_configs;
+
+// std::vector<std::pair<string, std::function<ConfigItems(string)>>>
+//     G_config_pausers;
+// TODO: Supports this
+
+Config* getConfig(string name, string load_filename)
+{
+    auto data = G_configs.find(name);
+    if (data == G_configs.end())
+        {
+            auto config = new Config(load_filename);
+            G_configs.insert(std::make_pair(name, config));
+            return config;
+        }
+    else
+        {
+            return data->second;
+        }
+}
 
 void Config::loadFrom(ConfigItems& items)
 {
@@ -9,7 +32,7 @@ void Config::loadFrom(ConfigItems& items)
         }
 }
 
-ConfigItems tomlConfigPauser(string_view filename)
+ConfigItems tomlConfigPauser(string filename)
 {
     auto config = toml::parse_file(filename);
     ConfigItems data;
@@ -21,16 +44,17 @@ ConfigItems tomlConfigPauser(string_view filename)
                         {
                             if (v.is<ConfigSupportedTypes>())
                                 data.push_back(std::make_tuple(
-                                    space.str(), k.str(),
+                                    view2String(space.str()),
+                                    view2String(k.str()),
                                     *v.as<ConfigSupportedTypes>()));
                         }
                 }
         };
 }
 
-void Config::loadFromFile(string_view filename)
+void Config::loadFromFile(string filename)
 {
-    string_view ext = getFileExt(filename);
+    string ext = getFileExt(filename);
     //   for (auto &i : G_config_pausers) {
     //     if (i.first == ext) {
     //       auto data = i.second(filename);
@@ -46,9 +70,7 @@ void Config::loadFromFile(string_view filename)
 
 template <typename T>
 T Config::get(
-    string_view space,
-    string_view key,
-    std::function<T()> const& default_generator)
+    string space, string key, std::function<T()> const& default_generator)
 {
     auto value = this->values.find(this->_generateKey(space, key));
     if (value == this->values.end())
@@ -61,14 +83,13 @@ T Config::get(
         }
 }
 
-template <typename T>
-void Config::set(string_view space, string_view key, T value)
+void Config::set(string space, string key, ConfigSupportedTypes value)
 {
     this->values.insert(std::make_pair(this->_generateKey(space, key), value));
 }
 
 template <typename T>
-T Config::require(string_view space, string_view key)
+T Config::require(string space, string key)
 {
     auto config_key = this->_generateKey(space, key);
     auto value      = this->values.find(config_key);
@@ -81,3 +102,5 @@ T Config::require(string_view space, string_view key)
             return std::get<T>(value->second);
         }
 }
+
+#endif
