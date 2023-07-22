@@ -15,10 +15,10 @@ class Frontend;
 
 class Reed
 {
-  public:
+public:
     Reed();
     Table& getMainWindowConfig();
-  private:
+private:
     Table data;
     Table config;
     

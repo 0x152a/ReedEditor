@@ -1,5 +1,5 @@
 #include "reed.h"
-#include "frontend/frontend.h"
+// #include "frontend/frontend.h"
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -9,22 +9,21 @@ Reed::Reed()
     Table defaultConfig, userConfig;
     try {
         defaultConfig = toml::parse_file("default_config.toml");
-        
-    } catch (const toml::parse_error& err) {
+    } catch (const toml::parse_error &err) {
         std::cerr << err;
         exit(EXIT_FAILURE);
     }
     try {
         userConfig = toml::parse_file("config.toml");
-    } catch (const toml::parse_error& err) {
+    } catch (const toml::parse_error &err) {
         std::cerr << err;
         exit(EXIT_FAILURE);
     }
-    
+
     this->config = defaultConfig;
 }
 
-Table& Reed::getMainWindowConfig()
+Table &Reed::getMainWindowConfig()
 {
     return config;
 }
