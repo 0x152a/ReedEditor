@@ -1,15 +1,21 @@
-#include "TextEditor.h"
+#include "frontend/frontend.h"
+#include "reed.h"
 
-int ma2in(int argc, char** argv)
+int main(int argc, char** argv)
 {
-    Config* config = getConfig();
+    Reed reed;
     // textbuf->transcoding_warning_action = NULL;
+    Frontend frontend(&reed);
 
+    /*
     Fl_Window* window = newView();
+
     // fl_open_callback(window->loadFileCB);
 
     window->show(1, argv);
-
-    auto status = Fl::run();
+    */
+    
+    frontend.show();
+    int status = Fl::run();
     return status;
 }
