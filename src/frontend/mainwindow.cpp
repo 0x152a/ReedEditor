@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(Table& windowConfig)
+MainWindow::MainWindow(Table& config)
     : Fl_Window(
-          windowConfig["width"].value_or(400),
-          windowConfig["height"].value_or(400),
-          windowConfig["title"].value_or("Reed Editor")),
-      config(windowConfig)
+          config["main-window"]["width"].value_or(400),
+          config["main-window"]["height"].value_or(400),
+          config["main-window"]["title"].value_or("Reed Editor")),
+      config(config)
 {
 }

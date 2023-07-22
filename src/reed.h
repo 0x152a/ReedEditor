@@ -20,7 +20,7 @@ class Reed
     Table& getMainWindowConfig();
   private:
     Table data;
-    Table mainWindowConfig;
+    Table config;
     
     Frontend *frontend;
     

@@ -6,7 +6,7 @@
 class MainWindow: public Fl_Window
 {
 public:
-    MainWindow(Table& windowConfig);
+    MainWindow(Table& Config);
 private:
     Table &config;
 };

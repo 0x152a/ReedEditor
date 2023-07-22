@@ -21,10 +21,10 @@ Reed::Reed()
         exit(EXIT_FAILURE);
     }
     
-    this->mainWindowConfig = *defaultConfig["main-window"].as_table();
+    this->config = defaultConfig;
 }
 
 Table& Reed::getMainWindowConfig()
 {
-    return mainWindowConfig;
+    return config;
 }
