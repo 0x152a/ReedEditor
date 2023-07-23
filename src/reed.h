@@ -4,7 +4,7 @@
 前后端稍微解一下耦，各种核心逻辑全放到这里处理
 前端事件也传过来处理
 */
-#include "res/dbg.h"
+#include <third-party/dbg.h>
 #include <variant>
 #include <toml.hpp>
 using std::get;
